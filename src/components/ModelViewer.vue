@@ -63,7 +63,9 @@ onMounted(async () => {
   controls.enableDamping = true
   controls.dampingFactor = 0.08
   controls.enableZoom = true
-  controls.zoomToCursor = true
+  // Desktop mouse-wheel zoom homes in on the cursor; mobile pinch-zoom
+  // keeps the default behaviour of zooming toward the object's center.
+  controls.zoomToCursor = window.innerWidth >= 768
   controls.enablePan = false
   controls.minDistance = 0.1
   controls.maxDistance = 1000
