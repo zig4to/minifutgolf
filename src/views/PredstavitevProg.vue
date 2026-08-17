@@ -59,7 +59,7 @@ const proge = reactive(
     tezavnost: Math.floor(Math.random() * 5) + 1,
     opis: podatkiProg[i].opis,
     slika: null,
-    model: i === 0 ? testnaProgaModel : proga2Model,
+    model: i % 2 === 0 ? testnaProgaModel : proga2Model,
     zanima: false,
     koti: i % 2 === 0 ? ['top right', 'bottom right'] : ['top left', 'bottom left'],
     mocOsvetlitve: 0.08,

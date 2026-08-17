@@ -191,7 +191,7 @@ onBeforeUnmount(() => {
       v-if="interactive && !activated && !loading && !error"
       class="pointer-events-none absolute inset-0 flex items-center justify-center"
     >
-      <span class="rounded-full bg-dark/55 px-3.5 py-2 text-sm font-semibold text-white/70">
+      <span class="rounded-full bg-dark/30 px-3.5 py-2 text-sm font-semibold text-white/50">
         <span class="md:hidden">Dvokliknite za 3D pogled</span>
         <span class="hidden md:inline">Kliknite za 3D pogled</span>
       </span>
