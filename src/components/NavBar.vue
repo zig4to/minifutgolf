@@ -19,7 +19,7 @@ function close() {
 </script>
 
 <template>
-  <header class="fixed inset-x-0 top-0 z-100" :class="route.path === '/' ? 'bg-dark/40' : 'bg-dark/80'">
+  <header class="fixed inset-x-0 top-0 z-100" :class="route.path === '/' ? 'bg-dark/70' : 'bg-dark/95'">
     <div
       class="mx-auto flex h-19 max-w-295 items-center justify-between px-6 md:grid md:grid-cols-[1fr_auto_1fr]"
     >
