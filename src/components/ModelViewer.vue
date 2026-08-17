@@ -15,7 +15,7 @@ const loading = ref(true)
 const error = ref(false)
 const activated = ref(false)
 
-let renderer, scene, camera, controls, frameId, resizeObserver, model
+let renderer, scene, camera, controls, frameId, resizeObserver, model, handleOutsideTap
 
 function frameObject(object, cam, ctrls) {
   const box = new THREE.Box3().setFromObject(object)
@@ -87,6 +87,13 @@ onMounted(async () => {
       renderer.domElement.style.touchAction = 'none'
     }
 
+    function deactivate() {
+      activated.value = false
+      controls.enabled = false
+      renderer.domElement.style.touchAction = 'manipulation'
+      renderer.domElement.style.cursor = 'grab'
+    }
+
     renderer.domElement.addEventListener('pointerdown', (event) => {
       if (!activated.value) {
         if (window.innerWidth >= 768) {
@@ -103,6 +110,16 @@ onMounted(async () => {
     renderer.domElement.addEventListener('pointerup', () => {
       if (activated.value) renderer.domElement.style.cursor = 'grab'
     })
+
+    // On mobile, tapping anywhere outside this model hands touch scrolling
+    // back to the page; a double-tap is needed to re-enter 3D navigation.
+    handleOutsideTap = (event) => {
+      if (window.innerWidth >= 768) return
+      if (!activated.value) return
+      if (el.contains(event.target)) return
+      deactivate()
+    }
+    document.addEventListener('pointerdown', handleOutsideTap)
   }
 
   const loader = new GLTFLoader()
@@ -161,6 +178,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   cancelAnimationFrame(frameId)
   resizeObserver?.disconnect()
+  if (handleOutsideTap) document.removeEventListener('pointerdown', handleOutsideTap)
   controls?.dispose()
   if (renderer) {
     renderer.dispose()
