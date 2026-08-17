@@ -139,7 +139,7 @@ onMounted(async () => {
 
   const animate = () => {
     frameId = requestAnimationFrame(animate)
-    if (model) model.rotation.y += 0.003
+    if (model && !activated.value) model.rotation.y += 0.003
     controls.update()
     renderer.render(scene, camera)
   }
