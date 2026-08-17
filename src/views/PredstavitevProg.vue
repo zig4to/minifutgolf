@@ -126,7 +126,7 @@ function posljiPovprasevanje() {
               .join(', '),
           }"
         >
-          <div class="-mx-6 w-[calc(100%+3rem)] md:mx-0 md:w-3/5">
+          <div class="order-2 -mx-6 w-[calc(100%+3rem)] md:order-none md:mx-0 md:w-3/5">
             <img
               v-if="proga.slika"
               :src="proga.slika"
@@ -144,7 +144,7 @@ function posljiPovprasevanje() {
             </div>
           </div>
 
-          <div class="w-full md:w-2/5">
+          <div class="order-1 w-full md:order-none md:w-2/5">
             <span
               class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-black text-white"
             >

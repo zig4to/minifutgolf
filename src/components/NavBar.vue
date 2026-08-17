@@ -24,7 +24,7 @@ function close() {
       class="mx-auto flex h-19 max-w-295 items-center justify-between px-6 md:grid md:grid-cols-[1fr_auto_1fr]"
     >
       <RouterLink to="/" class="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white" @click="close">
-        <span>MiniFutGolf</span>
+        <span>MiniFootGolf</span>
       </RouterLink>
 
       <nav
