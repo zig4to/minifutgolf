@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6db165;
+  --color-primary-dark: #4f8f49;
+  --color-dark: #14181a;
+  --color-dark-soft: #1f2528;
+  --color-light: #f5f7f4;
+  --color-muted: #6b7570;
+  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  line-height: 1.5;
+}
+
+.bg-page-gradient {
+  background-color: rgba(107, 117, 112, 0.1);
+}
