@@ -133,7 +133,8 @@ function posljiPovprasevanje() {
             />
             <div
               v-else
-              class="aspect-square w-full overflow-hidden rounded-2xl bg-light md:aspect-video"
+              class="aspect-square w-full overflow-hidden rounded-2xl md:aspect-video"
+              :class="{ 'bg-light': !proga.vidno }"
               :data-stevilka="proga.stevilka"
               :ref="(el) => setModelRef(el, proga.stevilka)"
             >

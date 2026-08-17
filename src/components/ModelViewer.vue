@@ -69,22 +69,30 @@ onMounted(async () => {
   controls.enabled = false
 
   if (props.interactive) {
-    // Allow normal page scrolling over the canvas until the user double-taps
-    // to opt into 3D interaction; only then does the canvas capture drags.
+    // Allow normal page scrolling over the canvas until the user opts into
+    // 3D interaction; only then does the canvas capture drags. On mobile
+    // screens a double-tap is required so a single scroll-swipe doesn't
+    // get grabbed by the model; desktop activates on a single click.
     renderer.domElement.style.touchAction = 'manipulation'
 
     let lastTapTime = 0
     const DOUBLE_TAP_MS = 350
 
+    function activate() {
+      activated.value = true
+      controls.enabled = true
+      renderer.domElement.style.touchAction = 'none'
+    }
+
     renderer.domElement.addEventListener('pointerdown', (event) => {
       if (!activated.value) {
-        const now = event.timeStamp
-        if (now - lastTapTime < DOUBLE_TAP_MS) {
-          activated.value = true
-          controls.enabled = true
-          renderer.domElement.style.touchAction = 'none'
+        if (window.innerWidth >= 768) {
+          activate()
+        } else {
+          const now = event.timeStamp
+          if (now - lastTapTime < DOUBLE_TAP_MS) activate()
+          lastTapTime = now
         }
-        lastTapTime = now
         return
       }
       renderer.domElement.style.cursor = 'grabbing'
@@ -184,7 +192,8 @@ onBeforeUnmount(() => {
       class="pointer-events-none absolute inset-0 flex items-center justify-center"
     >
       <span class="rounded-full bg-dark/55 px-3.5 py-2 text-sm font-semibold text-white/70">
-        Dvokliknite za 3D pogled
+        <span class="md:hidden">Dvokliknite za 3D pogled</span>
+        <span class="hidden md:inline">Kliknite za 3D pogled</span>
       </span>
     </div>
   </div>
