@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import ModelViewer from '../components/ModelViewer.vue'
 import proga2Model from '../assets/3dmodels/proga2.glb'
+import testnaProgaModel from '../assets/3dmodels/testnaproga.glb'
 
 const DOVOLJENA_STEVILA = [4, 7, 10]
 
@@ -58,6 +59,7 @@ const proge = reactive(
     tezavnost: Math.floor(Math.random() * 5) + 1,
     opis: podatkiProg[i].opis,
     slika: null,
+    model: i === 0 ? testnaProgaModel : proga2Model,
     zanima: false,
     koti: i % 2 === 0 ? ['top right', 'bottom right'] : ['top left', 'bottom left'],
     mocOsvetlitve: 0.08,
@@ -138,7 +140,7 @@ function posljiPovprasevanje() {
               :data-stevilka="proga.stevilka"
               :ref="(el) => setModelRef(el, proga.stevilka)"
             >
-              <ModelViewer v-if="proga.vidno" :model="proga2Model" :scale="0.98" class="h-full w-full" />
+              <ModelViewer v-if="proga.vidno" :model="proga.model" :scale="0.98" class="h-full w-full" />
             </div>
           </div>
 
