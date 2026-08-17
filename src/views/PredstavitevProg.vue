@@ -124,16 +124,16 @@ function posljiPovprasevanje() {
               .join(', '),
           }"
         >
-          <div class="w-full md:w-3/5">
+          <div class="-mx-6 w-[calc(100%+3rem)] md:mx-0 md:w-3/5">
             <img
               v-if="proga.slika"
               :src="proga.slika"
               :alt="proga.ime"
-              class="aspect-video w-full rounded-2xl object-cover"
+              class="aspect-square w-full rounded-2xl object-cover md:aspect-video"
             />
             <div
               v-else
-              class="aspect-video w-full overflow-hidden rounded-2xl bg-light"
+              class="aspect-square w-full overflow-hidden rounded-2xl bg-light md:aspect-video"
               :data-stevilka="proga.stevilka"
               :ref="(el) => setModelRef(el, proga.stevilka)"
             >
