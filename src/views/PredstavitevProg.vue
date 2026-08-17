@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import ModelViewer from '../components/ModelViewer.vue'
 import proga2Model from '../assets/3dmodels/proga2.glb'
@@ -61,11 +61,35 @@ const proge = reactive(
     zanima: false,
     koti: i % 2 === 0 ? ['top right', 'bottom right'] : ['top left', 'bottom left'],
     mocOsvetlitve: 0.08,
+    vidno: false,
   }))
 )
 
 const steviloIzbranih = computed(() => proge.filter((p) => p.zanima).length)
 const veljavnaIzbira = computed(() => DOVOLJENA_STEVILA.includes(steviloIzbranih.value))
+
+const modelRefs = {}
+function setModelRef(el, stevilka) {
+  if (el) modelRefs[stevilka] = el
+  else delete modelRefs[stevilka]
+}
+
+let observer
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const stevilka = Number(entry.target.dataset.stevilka)
+        const proga = proge.find((p) => p.stevilka === stevilka)
+        if (proga) proga.vidno = entry.isIntersecting
+      }
+    },
+    { rootMargin: '400px 0px' }
+  )
+  Object.values(modelRefs).forEach((el) => observer.observe(el))
+})
+
+onBeforeUnmount(() => observer?.disconnect())
 
 function posljiPovprasevanje() {
   if (!veljavnaIzbira.value) return
@@ -107,8 +131,13 @@ function posljiPovprasevanje() {
               :alt="proga.ime"
               class="aspect-video w-full rounded-2xl object-cover"
             />
-            <div v-else class="aspect-video w-full overflow-hidden rounded-2xl">
-              <ModelViewer :model="proga2Model" :scale="0.98" class="h-full w-full" />
+            <div
+              v-else
+              class="aspect-video w-full overflow-hidden rounded-2xl bg-light"
+              :data-stevilka="proga.stevilka"
+              :ref="(el) => setModelRef(el, proga.stevilka)"
+            >
+              <ModelViewer v-if="proga.vidno" :model="proga2Model" :scale="0.98" class="h-full w-full" />
             </div>
           </div>
 
