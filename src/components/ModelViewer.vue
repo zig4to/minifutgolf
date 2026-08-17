@@ -111,6 +111,15 @@ onMounted(async () => {
       if (activated.value) renderer.domElement.style.cursor = 'grab'
     })
 
+    // On desktop, moving the mouse off the canvas deactivates 3D navigation
+    // again so the click-to-view hint reappears.
+    renderer.domElement.addEventListener('pointerleave', (event) => {
+      if (window.innerWidth < 768) return
+      if (event.pointerType !== 'mouse') return
+      if (!activated.value) return
+      deactivate()
+    })
+
     // On mobile, tapping anywhere outside this model hands touch scrolling
     // back to the page; a double-tap is needed to re-enter 3D navigation.
     handleOutsideTap = (event) => {
