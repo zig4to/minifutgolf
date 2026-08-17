@@ -10,12 +10,34 @@ const props = defineProps({
   scale: { type: Number, default: 1.4 },
 })
 
+const INITIAL_ROTATION_Y = (240 * Math.PI) / 180
+
 const container = ref(null)
 const loading = ref(true)
 const error = ref(false)
 const activated = ref(false)
 
 let renderer, scene, camera, controls, frameId, resizeObserver, model, handleOutsideTap
+
+function activate() {
+  activated.value = true
+  controls.enabled = true
+  renderer.domElement.style.touchAction = 'none'
+}
+
+function deactivate() {
+  activated.value = false
+  controls.enabled = false
+  renderer.domElement.style.touchAction = 'manipulation'
+  renderer.domElement.style.cursor = 'grab'
+}
+
+function resetView() {
+  if (!model || !camera || !controls) return
+  model.rotation.y = INITIAL_ROTATION_Y
+  frameObject(model, camera, controls)
+  deactivate()
+}
 
 function frameObject(object, cam, ctrls) {
   const box = new THREE.Box3().setFromObject(object)
@@ -81,19 +103,6 @@ onMounted(async () => {
     let lastTapTime = 0
     const DOUBLE_TAP_MS = 350
 
-    function activate() {
-      activated.value = true
-      controls.enabled = true
-      renderer.domElement.style.touchAction = 'none'
-    }
-
-    function deactivate() {
-      activated.value = false
-      controls.enabled = false
-      renderer.domElement.style.touchAction = 'manipulation'
-      renderer.domElement.style.cursor = 'grab'
-    }
-
     renderer.domElement.addEventListener('pointerdown', (event) => {
       if (!activated.value) {
         if (window.innerWidth >= 768) {
@@ -148,7 +157,7 @@ onMounted(async () => {
 
       frameObject(wrapper, camera, controls)
       wrapper.scale.setScalar(props.scale)
-      wrapper.rotation.y = (240 * Math.PI) / 180
+      wrapper.rotation.y = INITIAL_ROTATION_Y
 
       const size = localBox.getSize(new THREE.Vector3())
       const offset = size.length() * 0.06
@@ -226,5 +235,17 @@ onBeforeUnmount(() => {
         <span class="hidden md:inline">Kliknite za 3D pogled</span>
       </span>
     </div>
+    <button
+      v-if="interactive && !loading && !error"
+      type="button"
+      class="absolute bottom-3 left-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-dark/35 text-white/60 transition-colors hover:bg-dark/60 hover:text-white/90"
+      aria-label="Ponastavi 3D pogled"
+      @click="resetView"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4.5 w-4.5">
+        <polyline points="1 4 1 10 7 10" />
+        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+      </svg>
+    </button>
   </div>
 </template>
