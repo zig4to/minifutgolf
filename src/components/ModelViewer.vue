@@ -69,16 +69,28 @@ onMounted(async () => {
   controls.enabled = false
 
   if (props.interactive) {
-    renderer.domElement.style.touchAction = 'none'
-    renderer.domElement.addEventListener('pointerdown', () => {
+    // Allow normal page scrolling over the canvas until the user double-taps
+    // to opt into 3D interaction; only then does the canvas capture drags.
+    renderer.domElement.style.touchAction = 'manipulation'
+
+    let lastTapTime = 0
+    const DOUBLE_TAP_MS = 350
+
+    renderer.domElement.addEventListener('pointerdown', (event) => {
       if (!activated.value) {
-        activated.value = true
-        controls.enabled = true
+        const now = event.timeStamp
+        if (now - lastTapTime < DOUBLE_TAP_MS) {
+          activated.value = true
+          controls.enabled = true
+          renderer.domElement.style.touchAction = 'none'
+        }
+        lastTapTime = now
+        return
       }
       renderer.domElement.style.cursor = 'grabbing'
     })
     renderer.domElement.addEventListener('pointerup', () => {
-      renderer.domElement.style.cursor = 'grab'
+      if (activated.value) renderer.domElement.style.cursor = 'grab'
     })
   }
 
@@ -172,7 +184,7 @@ onBeforeUnmount(() => {
       class="pointer-events-none absolute inset-0 flex items-center justify-center"
     >
       <span class="rounded-full bg-dark/55 px-3.5 py-2 text-sm font-semibold text-white/70">
-        Kliknite za 3D pogled
+        Dvokliknite za 3D pogled
       </span>
     </div>
   </div>
