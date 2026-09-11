@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import ModelViewer from '../components/ModelViewer.vue'
+import PageContainer from '../components/PageContainer.vue'
 import proga2Model from '../assets/3dmodels/proga2.glb'
 import testnaProgaModel from '../assets/3dmodels/testnaproga.glb'
 
@@ -104,14 +105,14 @@ function posljiPovprasevanje() {
 
 <template>
   <section class="bg-page-gradient min-h-[calc(100vh-76px)] pt-19">
-    <div class="mx-auto max-w-295 px-6 py-20 md:py-28">
+    <PageContainer pt="pt-10 md:pt-14" pb="pb-10 md:pb-14">
       <p class="mb-3 text-center text-sm font-bold tracking-widest text-primary-dark uppercase md:text-left">
         Naše proge
       </p>
       <h1 class="mb-4 text-center text-4xl font-black text-dark md:text-left md:text-5xl">Predstavitev prog</h1>
       <span class="mx-auto mb-16 block h-1 w-14 rounded-full bg-linear-to-r from-primary to-primary-dark md:mx-0"></span>
 
-      <div class="flex flex-col gap-16 md:gap-24">
+      <div class="flex flex-col gap-8 md:gap-12">
         <article
           v-for="(proga, index) in proge"
           :key="proga.stevilka"
@@ -175,7 +176,7 @@ function posljiPovprasevanje() {
         </article>
       </div>
 
-      <div class="mt-16 flex flex-col items-center gap-3 text-center md:mt-24">
+      <div class="mt-8 flex flex-col items-center gap-3 text-center md:mt-12">
         <button
           type="button"
           :disabled="!veljavnaIzbira"
@@ -188,6 +189,6 @@ function posljiPovprasevanje() {
           Izbrati morate natanko 4, 7 ali 10 prog (kot v naših paketih). Trenutno izbranih: {{ steviloIzbranih }}.
         </p>
       </div>
-    </div>
+    </PageContainer>
   </section>
 </template>

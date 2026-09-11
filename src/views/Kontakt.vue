@@ -46,9 +46,11 @@ function resetForm() {
   <section class="bg-page-gradient flex flex-col md:min-h-screen">
     <div class="h-19 shrink-0" aria-hidden="true"></div>
 
-    <div class="px-6 py-12 md:flex md:flex-1 md:items-center md:justify-center md:px-6 md:py-0">
-      <div class="mx-auto w-full max-w-160">
-        <h1 class="mb-2 text-3xl font-extrabold text-dark md:text-4xl">Obrazec za povpraševanje</h1>
+    <div class="px-6 pt-12 pb-20 md:flex md:flex-1 md:items-center md:justify-center md:px-6 md:py-0">
+      <div class="mx-auto w-full max-w-160 md:mb-16">
+        <h1 class="mt-6 mb-2 text-3xl font-extrabold text-dark md:text-4xl">
+          Obrazec za povpraševanje
+        </h1>
         <span class="mb-8 block h-1 w-14 rounded-full bg-linear-to-r from-primary to-primary-dark"></span>
 
         <div class="relative overflow-hidden rounded-2xl p-0.5">
