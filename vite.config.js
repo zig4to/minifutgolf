@@ -7,4 +7,5 @@ export default defineConfig({
   base: '/minifutgolf/',
   plugins: [vue(), tailwindcss()],
   assetsInclude: ['**/*.glb'],
+  server: { host: true, port: 5174, strictPort: true },
 })
