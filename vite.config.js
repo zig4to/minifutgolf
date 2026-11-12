@@ -7,5 +7,6 @@ export default defineConfig({
   base: '/minifutgolf/',
   plugins: [vue(), tailwindcss()],
   assetsInclude: ['**/*.glb'],
-  server: { host: true, port: 5174, strictPort: true },
+  // .ts.net: predogled v DevHost Claude prek Tailscale
+  server: { host: true, port: 5174, strictPort: true, allowedHosts: ['.ts.net'] },
 })
